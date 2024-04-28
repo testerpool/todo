@@ -1,0 +1,42 @@
+# Файлы и папки IDE
+.idea/
+.vscode/
+.classpath
+
+# Папки с временными или скомпилированными файлами
+/target/
+/bin/
+/build/
+/node_modules/
+
+# Файлы конфигурации и секреты
+.env
+.env.*
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Файлы логов и временные файлы
+*.log
+*.tmp
+
+# Папки с зависимостями и библиотеками
+/vendor/
+/lib/
+
+# Системные файлы и папки
+.DS_Store
+Thumbs.db
+
+# Файлы настроек среды разработки
+.settings/
+
+# Папки с кэшем и временными данными
+/cache/
+/tmp/
+
+# Файлы сборки и временные файлы
+/dist/
+*.jar
+*.war
