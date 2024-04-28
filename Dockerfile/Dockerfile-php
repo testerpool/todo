@@ -1,0 +1,17 @@
+FROM php:apache
+
+# Установка расширения mysqli
+RUN docker-php-ext-install mysqli
+
+# Установка расширения pdo_mysql
+RUN docker-php-ext-install pdo_mysql
+
+# Установка утилит и Composer
+# Установка утилит и Composer
+RUN apt-get update && apt-get install -y \
+    git \
+    unzip \
+    && rm -rf /var/lib/apt/lists/* \
+    && php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" \
+    && php composer-setup.php --install-dir=/usr/local/bin --filename=composer \
+    && php -r "unlink('composer-setup.php');"

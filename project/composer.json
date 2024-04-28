@@ -1,0 +1,9 @@
+{
+  "autoload": {
+    "psr-4": {
+      "database\\": "database/",
+      "database\\migration\\": "database/migration/",
+      "database\\models\\": "database/models/"
+    }
+  }
+}

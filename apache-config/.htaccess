@@ -1,0 +1,7 @@
+# Включаем модуль rewrite
+RewriteEngine On
+
+# Разрешаем доступ ко всем файлам и директориям
+Require all granted
+
+DirectoryIndex index.html index.php

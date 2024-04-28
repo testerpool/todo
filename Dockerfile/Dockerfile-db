@@ -1,0 +1,17 @@
+FROM mysql:latest
+
+# Установка переменных окружения для MySQL
+ENV MYSQL_ROOT_PASSWORD=root
+ENV MYSQL_DATABASE=todo_list
+
+# Копирование SQL-скрипта для создания базы данных и таблиц
+COPY init_db.sql /docker-entrypoint-initdb.d/
+
+# Экспонирование порта MySQL (не обязательно, если вы не собираетесь подключаться к MySQL извне контейнера)
+EXPOSE 3306
+
+# Задаем команду ENTRYPOINT для запуска скрипта init_db.sql при инициализации контейнера
+ENTRYPOINT ["docker-entrypoint.sh"]
+
+# Выполняем команду CMD, чтобы задать дополнительные параметры для entrypoint
+CMD ["mysqld"]
