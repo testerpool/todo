@@ -5,26 +5,27 @@ namespace database\migration;
 use database\Database;
 
 /**
- * Миграция для создания таблицы `tasks`
+ * Миграция для создания таблицы `task`
  */
 class CreateTaskTable
 {
     private $db;
+    private bool $showLog = false;
 
-    public function __construct()
-    {
+    public function __construct() {
         $this->db = Database::getInstance()->getConnection();
     }
 
-    public function up()
-    {
+    public function up() {
         $tableName = 'task';
 
         // Проверяем существование таблицы
         $checkSql = "SHOW TABLES LIKE '$tableName'";
-        $result = $this->db->query($checkSql);
-        if ($result->num_rows > 0) {
-            echo "Table '$tableName' already exists";
+        $result   = $this->db->query($checkSql);
+        if($result->num_rows > 0) {
+            if($this->showLog) {
+                echo "Table '$tableName' already exists";
+            }
         } else {
             // Таблица не существует, создаем её
             $sql = "
@@ -36,19 +37,20 @@ class CreateTaskTable
         )
     ";
 
-            if ($this->db->query($sql) === TRUE) {
-                echo "Table '$tableName' created successfully";
-            } else {
-                echo "Error creating table: " . $this->db->error;
+            if($this->showLog) {
+                if($this->db->query($sql) === true) {
+                    echo "Table '$tableName' created successfully";
+                } else {
+                    echo "Error creating table: " . $this->db->error;
+                }
             }
         }
     }
 
-    public function down()
-    {
+    public function down() {
         $sql = "DROP TABLE IF EXISTS task";
 
-        if ($this->db->query($sql) === TRUE) {
+        if($this->db->query($sql) === true) {
             echo "Table 'task' dropped successfully";
         } else {
             echo "Error dropping table: " . $this->db->error;

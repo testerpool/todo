@@ -7,7 +7,6 @@ RUN docker-php-ext-install mysqli
 RUN docker-php-ext-install pdo_mysql
 
 # Установка утилит и Composer
-# Установка утилит и Composer
 RUN apt-get update && apt-get install -y \
     git \
     unzip \
@@ -15,3 +14,9 @@ RUN apt-get update && apt-get install -y \
     && php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" \
     && php composer-setup.php --install-dir=/usr/local/bin --filename=composer \
     && php -r "unlink('composer-setup.php');"
+
+# Устанавливаем рабочую директорию
+WORKDIR /var/www/public
+
+# Выполнение команды composer dump-autoload при старте контейнера
+CMD composer dump-autoload && apache2-foreground

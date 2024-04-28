@@ -7,10 +7,9 @@ services:
       dockerfile: ./Dockerfile/Dockerfile-php
     ports:
       - "8000:80"
+    container_name: todo_web
     volumes:
       - ./project:/var/www/public
-#      - ./apache-config:/etc/apache2/sites-available
-#      - ./apache-config/httpd.conf:/etc/apache2/httpd.conf
       - ./apache-config/000-default.conf:/etc/apache2/sites-available/000-default.conf
     depends_on:
       - db
