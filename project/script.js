@@ -12,8 +12,7 @@ function addTask() {
         if (xhr.readyState === 4 && xhr.status === 200) {
             var response = xhr.responseText;
             if (response === "success") {
-                taskInput.value = "";
-                fetchTasks();
+                location.reload();
             } else {
                 alert("Failed to add task.");
             }
@@ -22,18 +21,20 @@ function addTask() {
     xhr.send("task=" + task);
 }
 
-function fetchTasks() {
+
+function toggleTaskStatus(taskId) {
     var xhr = new XMLHttpRequest();
-    xhr.open("GET", "get_tasks.php", true);
+    xhr.open("POST", "toggle_task_status.php", true);
+    xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
     xhr.onreadystatechange = function () {
         if (xhr.readyState === 4 && xhr.status === 200) {
-            var taskList = document.getElementById("taskList");
-            taskList.innerHTML = xhr.responseText;
+            var response = xhr.responseText;
+            if (response === "success") {
+                location.reload();
+            } else {
+                alert("Failed to mark task.");
+            }
         }
     };
-    xhr.send();
+    xhr.send("id=" + taskId);
 }
-
-document.addEventListener("DOMContentLoaded", function () {
-    fetchTasks();
-});

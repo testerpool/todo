@@ -4,6 +4,9 @@ namespace database\models;
 
 class Task extends BaseModel
 {
+    const TASK_STATUS_NEW = 'New';
+    const TASK_STATUS_COMPLETED = 'Completed';
+
     /**
      * Метод для получения имени таблицы
      * @return string Имя таблицы
@@ -46,6 +49,48 @@ class Task extends BaseModel
         }
 
         return $tasks;
+    }
+
+    /**
+     * Метод для переключения статуса задачи
+     * @param array $criteria Массив критериев поиска
+     * @return bool true в случае успешного обновления, false в случае ошибки
+     */
+    public function toggleTaskStatus(array $criteria): bool {
+        if (empty($criteria)) {
+            // Если критерии не указаны, ничего не делаем
+            return false;
+        }
+
+        // Используем метод find для получения текущего статуса задач
+        $tasks = $this->find($criteria);
+        if (empty($tasks)) {
+            // Если задачи не найдены, возвращаем false
+            return false;
+        }
+
+        // Предполагаем, что критерии идентифицируют одну конкретную задачу
+        $currentStatus = $tasks[0]['status'];
+        $newStatus = ($currentStatus === 'New') ? self::TASK_STATUS_COMPLETED : self::TASK_STATUS_NEW;
+
+        // Генерируем условия для WHERE на основе критериев
+        $conditions = [];
+        foreach ($criteria as $key => $value) {
+            $conditions[] = "$key = '$value'";
+        }
+
+        // Формируем SQL запрос для обновления статуса
+        $sql = "UPDATE task SET status = '$newStatus'";
+        if (!empty($conditions)) {
+            $sql .= " WHERE " . implode(" AND ", $conditions);
+        }
+
+        // Выполняем запрос на обновление
+        if ($this->db->query($sql) === true) {
+            return $this->db->affected_rows > 0;
+        } else {
+            return false;
+        }
     }
 }
 ?>

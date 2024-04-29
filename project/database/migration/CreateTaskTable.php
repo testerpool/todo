@@ -37,10 +37,12 @@ class CreateTaskTable
         )
     ";
 
-            if($this->showLog) {
-                if($this->db->query($sql) === true) {
+            if($this->db->query($sql) === true) {
+                if($this->showLog) {
                     echo "Table '$tableName' created successfully";
-                } else {
+                }
+            } else {
+                if($this->showLog) {
                     echo "Error creating table: " . $this->db->error;
                 }
             }
